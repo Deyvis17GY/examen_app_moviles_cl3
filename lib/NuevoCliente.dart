@@ -32,9 +32,6 @@ class _NuevoCliente extends State<NuevoCliente> {
   void initState() {
     super.initState();
     widget.oCliente.limpiarPropiedades();
-    // if (widget.codigoClienteSeleccioando > 0) {
-    //   _listarKeyProvider();
-    // }
   }
 
   Future<String> _listarKey() async {
@@ -64,15 +61,6 @@ class _NuevoCliente extends State<NuevoCliente> {
     _tfEstado.text = widget.oCliente.Estado;
     _tfObservaciones.text = widget.oCliente.Observaciones;
   }
-
-  // void _cargarEntidad() {
-  //   widget.oCliente.NombreCliente = _tfNombreCliente.text;
-  //   widget.oCliente.NumeroOrdenServicio = _tfNumeroOrdenServicio.text;
-  //   widget.oCliente.FechaProgramada = _tfFechaProgramada.text;
-  //   widget.oCliente.Linea = _tfLinea.text;
-  //   widget.oCliente.Estado = _tfEstado.text;
-  //   widget.oCliente.Observaciones = _tfObservaciones.text;
-  // }
 
   bool _validarRegistro() {
     if (_tfNombreCliente.text.toString() == "" ||
@@ -134,17 +122,12 @@ class _NuevoCliente extends State<NuevoCliente> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Registro de clientes "),
-          // actions: [
-          //   IconButton(icon: Icon(Icons.save), onPressed: _grabarRegistro),
-          // ],
         ),
         body: ListView(
           children: [
             Container(
-              padding: EdgeInsets.all(10),
-              child: Text(" Código de cliente:" +
-                  widget.oCliente.CodigoServicio.toString()),
-            ),
+                padding: EdgeInsets.all(10),
+                child: Text(" Ingrese Nuevo Cliente")),
             Container(
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Column(
@@ -183,16 +166,12 @@ class _NuevoCliente extends State<NuevoCliente> {
                       )),
                   TextField(
                       controller: _tfObservaciones,
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: false),
                       decoration: InputDecoration(
                         hintText: "Ingresar  Observaciones",
                         labelText: "Observaciones",
                       )),
                   TextField(
                       controller: _tfEstado,
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: false),
                       decoration: InputDecoration(
                         hintText: "Ingresar el Estado",
                         labelText: "Estado",

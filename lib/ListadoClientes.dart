@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './ServicioModel.dart';
-import './ServicioProvider.dart';
 import './ListadoClientes.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,16 +16,10 @@ class ListadoClientes extends StatefulWidget {
   String urlController = "/Servicio/";
   String urlRegistraModifica =
       "/RegistraModifica?Accion=N&CodigoServicio=0&NombreCliente=UNMA2Q%20S.A.&NumeroOrdenServicio=ORD-2016-001&Fechaprogramada=20161104&Linea=KING%20OCEAN%20SERVICES&Estado=Aprobado&Observaciones=Ninguno";
-  String urlListado = "Listar?NombreCliente=";
+  String urlListado = "Listar?CodigoServicio=";
   String jSonClientes =
       '[{"CodigoServicio": 0,"NombreCliente": "","NumeroOrdenServicio": "","FechaProgramada": "","Linea": "","Estado": "","Observaciones": "","Eliminado": false,"CodigoError": 2,"DescripcionError": "","MensajeError":"" }]';
   String titulo;
-
-  // final _provider = new ServicioProvider();
-  // List<ServicioModel> oListaServicio = [];
-  // int codigoServicioSeleccionado = 0;
-  // ServicioModel oServicioModel = ServicioModel();
-  // String jSonServicio = "";
   ListadoClientes(this.titulo);
 
   @override
@@ -35,14 +28,8 @@ class ListadoClientes extends StatefulWidget {
 
 class _ListadoClientes extends State<ListadoClientes> {
   final _tfNombreCliente = TextEditingController();
+  final _tfCodigoServicio = TextEditingController();
   bool toggle = true;
-  // final _tfCodigoServicio = TextEditingController();
-  // final _tfNombreCliente = TextEditingController();
-  // final _tfNumeroOrdenServicio = TextEditingController();
-  // final _tfFechaProgramada = TextEditingController();
-  // final _tfLinea = TextEditingController();
-  // final _tfEstado = TextEditingController();
-  // final _tfObservaciones = TextEditingController();
 
   void initState() {
     super.initState();
@@ -70,6 +57,8 @@ class _ListadoClientes extends State<ListadoClientes> {
     urlListaClientes = widget.urlGeneral +
         widget.urlController +
         widget.urlListado +
+        _tfCodigoServicio.text.toString() +
+        '&NombreCliente=' +
         _tfNombreCliente.text.toString();
 
     var respuesta = await http.get(Uri.parse(urlListaClientes));
@@ -89,25 +78,6 @@ class _ListadoClientes extends State<ListadoClientes> {
     });
 
     return "procesado";
-    // ServicioModel pServicioModel = new ServicioModel();
-    // pServicioModel.limpiarPropiedades();
-    // //pServicioModel.CodigoServicio = _tfCodigoServicio.text;
-    // pServicioModel.NombreCliente = _tfNombreCliente.text;
-    // pServicioModel.NumeroOrdenServicio = _tfNumeroOrdenServicio.text;
-    // pServicioModel.FechaProgramada = _tfFechaProgramada.text;
-    // pServicioModel.Linea = _tfLinea.text;
-    // pServicioModel.Estado = _tfEstado.text;
-    // pServicioModel.Observaciones = _tfObservaciones.text;
-    // var oListaServicioTmp = await widget._provider.listar(pServicioModel);
-    // print(oListaServicioTmp);
-    // setState(() {
-    //   widget.oListaServicio = oListaServicioTmp;
-    //   widget.jSonServicio = widget._provider.jsonResultado;
-    //   if (widget.oListaServicio.length == 0) {
-    //     widget.jSonServicio = '[${widget.oServicioModel.toModelString()}]';
-    //   }
-    // });
-    //return "Procesado";
   }
 
   @override
@@ -137,6 +107,11 @@ class _ListadoClientes extends State<ListadoClientes> {
                             decoration: InputDecoration(
                                 hintText: "Ingrese Nombre Cliente",
                                 labelText: "Nombre Cliente")),
+                        TextField(
+                            controller: _tfCodigoServicio,
+                            decoration: InputDecoration(
+                                hintText: "Ingrese Codigo Servicio",
+                                labelText: "Codigo Servicio")),
                         Text("Se econtraron " +
                             widget.oListClientes.length.toString() +
                             " Clientes"),
